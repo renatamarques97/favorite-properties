@@ -1,24 +1,22 @@
-# README
+# An application for users to select multiple favorite properties.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Ruby version
+2.6.5
 
-Things you may want to cover:
+## Rails Version
+6.0.2
 
-* Ruby version
+## System dependencies
 
-* System dependencies
+## Configuration
 
-* Configuration
+## Database creation
 
-* Database creation
+## Database initialization
 
-* Database initialization
+## How to run the test suite
 
-* How to run the test suite
+## Services (job queues, cache servers, search engines, etc.)
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Run the server
+`rails server`
