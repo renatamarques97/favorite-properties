@@ -1,0 +1,49 @@
+<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+<% if user_signed_in? %>
+  <%= render :partial => 'menu' %>
+
+  <table>
+    <tbody>
+      <% load_buildings.each_with_index  do |building, index| %>
+        <tr class="buildings">
+          <td> <%= building["name"] %> </td>
+          <td> <%= number_to_currency(building["min_price"], unit: "R$ ", separator: ",", delimiter: ".") %> </td>
+          <td> <%= building["address"]["city"] + " - " + building["address"]["state"] %> </td>
+          <td> <%= image_tag(building["default_image"]["200x140"]) %> </td>
+          <td> <input id=<%= index %> class='flash-container btn btn-favorite' type="button" value="&#9829"
+                  onclick='add_favorite(<%= index %>);' type="submit"/></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <p> <h3> <%= "Current Page:" + current_page.to_s %> </h3> </p>
+
+  <a href="/?page=1"><button class="btn btn-primary"><< First Page</button></a>
+  <a href="<%= '/?page=' + (current_page - 1).to_s %>"><button class="btn btn-primary">< Previous Page</button></a>
+  <a href="<%= '/?page=' + (current_page + 1).to_s %>"><button class="btn btn-primary">Next Page ></button></a>
+  <a href="<%= '/?page=' + total_pages.to_s %>"><button class="btn btn-primary">Last Page >> </button></a>
+
+<% else %>
+  <%= redirect_to_login %>
+<% end %>
+
+<script>
+  function set_favorites() {
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }
+
+  function message_set_favorite() {
+    Flash = {}
+    Flash.success = function(msg = 'Favorite Saved', time){
+      time = 1000;
+      $('#flash-container')[0].innerHTML = "<div class='success message'>" + msg + "</div>";
+      $('#flash-container').addClass('showing');
+      setTimeout(function(){
+        $('#flash-container').removeClass('showing');
+      }, time);
+    };
+  }
+</script>
