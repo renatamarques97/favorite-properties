@@ -1,22 +1,46 @@
-# An application for users to select multiple favorite properties.
+## An application for users to select multiple favorite properties.
 
-## Ruby version
-2.6.5
+### Ruby version
+- 2.6.5
 
-## Rails Version
-6.0.2
+### Rails Version
+- 6.0.2
 
-## System dependencies
+### Features
+- Register User
+- Get properties from Orulo API
+- Select favorites
+- The properties still selected even after update the page
 
-## Configuration
+### Database Setup
+`rails db:setup`\
+or \
+`rails db:create`, 
+`rails db:migrate`
 
-## Database creation
+### Configuration
+docker:
+ ```
+ docker-compose build
+ docker-compose run --rm app bash
+   gem install bundler
+   bundle install
+   yarn install
+   exit
+ ```
 
-## Database initialization
+local: \
+`bundle install` \
+`yarn install`
 
-## How to run the test suite
+### How to run the test suite
+`bundle exec rspec`
 
-## Services (job queues, cache servers, search engines, etc.)
+### Run the server
+with docker: \
+`docker-compose up`\
+\
+local (without docker): \
+`rails server` \
 
-## Run the server
-`rails server`
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
