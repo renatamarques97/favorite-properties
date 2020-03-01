@@ -3,11 +3,11 @@
 
 <% if user_signed_in? %>
   <%= render :partial => 'menu' %>
-
+  
   <table>
     <tbody>
       <% load_buildings.each_with_index  do |building, index| %>
-        <tr class="buildings">
+        <tr class="buildings" >
           <td> <%= building["name"] %> </td>
           <td> <%= number_to_currency(building["min_price"], unit: "R$ ", separator: ",", delimiter: ".") %> </td>
           <td> <%= building["address"]["city"] + " - " + building["address"]["state"] %> </td>
@@ -31,6 +31,45 @@
 <% end %>
 
 <script>
+  var favorites = get_favorites();
+  var buildings = format_buildings();
+
+  function add_favorite(favorite_index) {
+    if (!verify_exist_favorite(favorite_index)) {
+      favorites.push(buildings[favorite_index]);
+      set_favorites();
+    }
+  }
+
+  function format_buildings() {
+    var buildings = '<%= load_buildings %>';
+    buildings = buildings.replace(/&quot;/g,'"').replace(/&gt;/g,'').replace(/=/g,':');
+    
+    return JSON.parse(buildings);;
+  }
+
+  function verify_exist_favorite(favorite_index) {
+    building = buildings[favorite_index];
+    
+    for (var favorite of favorites) {
+      if (building["id"] == favorite["id"]) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  function get_favorites() {
+    favorites = JSON.parse(localStorage.getItem('favorites'));
+
+    if (Array.isArray(favorites)) {
+      return favorites;
+    }
+
+    return [];
+  }
+
   function set_favorites() {
     localStorage.setItem('favorites', JSON.stringify(favorites));
   }
