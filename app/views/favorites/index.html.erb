@@ -1,0 +1,69 @@
+<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+<% if user_signed_in? %>
+  <%= render :partial => 'buildings/menu' %>
+
+  <table>
+    <tbody>
+
+    </tbody>
+  </table>
+
+<% else %>
+  <%= redirect_to_login %>
+<% end %>
+
+<script>
+
+  tableCreate();
+
+  function get_favorites() {
+    favorites = JSON.parse(localStorage.getItem('favorites'));
+
+    if (Array.isArray(favorites)) {
+      return favorites;
+    }
+
+    return [];
+  }
+
+  function tableCreate() {
+    var favorites = get_favorites();
+
+    var formatter = new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    });
+
+    var tbody = document.getElementsByTagName('tbody')[0];
+
+    for (var i = 0; i < favorites.length; i++) {
+      var tr = document.createElement('tr');
+      tr.setAttribute('class', 'buildings');
+
+      var td = document.createElement('td');
+      td.appendChild(document.createTextNode(favorites[i]["name"]));
+      tr.appendChild(td);
+
+      td = document.createElement('td');
+      min_price = formatter.format(favorites[i]["min_price"]);
+      td.appendChild(document.createTextNode(min_price));
+      tr.appendChild(td);
+
+      td = document.createElement('td');
+      address = favorites[i]["address"]["city"] + " - " + favorites[i]["address"]["state"]
+      td.appendChild(document.createTextNode(address));
+      tr.appendChild(td);
+
+      td = document.createElement('td');
+      img = document.createElement('img');
+      img.setAttribute('src', favorites[i]["default_image"]["200x140"]);
+      td.appendChild(img);
+      tr.appendChild(td);
+
+      tbody.appendChild(tr);
+    }
+  }
+
+</script>
